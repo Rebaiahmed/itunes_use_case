@@ -14,10 +14,10 @@ export interface Album {
   }
 
   export interface SearchParams {
-    searchQuery: string;
-    offset: number;
-    limit: number;
-    isLoading: boolean;
-    sortBy: string;
+    searchQuery?: string;
+    offset?: number;
+    limit?: number;
+    isLoading?: boolean;
+    sortBy?: string;
   }
   
