@@ -1,13 +1,16 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { ApiService } from '@core/http/api.service';
-import { Album } from '@core/models';
+import { Album, SearchParams } from '@core/models';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
+import { AlbumItemComponent } from '../album-item/album-item.component';
+import { LoadingComponent } from '@shared/loading/loading.component';
+import { NotFoundComponent } from '@shared/not-found/not-found.component';
 
 @Component({
   selector: 'app-album-list',
-  imports: [],
+  imports: [AlbumItemComponent,LoadingComponent,NotFoundComponent],
   templateUrl: './album-list.component.html',
   styleUrl: './album-list.component.scss'
 })
@@ -18,20 +21,25 @@ export class AlbumListComponent implements OnInit {
   private destroyRef = inject(DestroyRef)
 
   albums = signal<Album[]>([]);
-  offset = signal(0);
   isLoading = signal(false);
-  limit = 20;
+  componentParams: SearchParams = {
+    searchQuery: 'Michael Jackson',
+    isLoading: false,
+    limit:25
+  };
   
 
   constructor() {
   }
   ngOnInit(): void {
-    this.itunesService.searchAlbums({})
+   this.itunesService.searchAlbums(this.componentParams)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         tap(console.log)
       )
-      .subscribe();
+      .subscribe((response)=>{
+        this.albums.set(response?.results);
+      }); 
   }
 
 

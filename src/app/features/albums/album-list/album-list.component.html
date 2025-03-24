@@ -1,1 +1,16 @@
-<p>album-list works!</p>
+
+
+<div class="row">
+    @for (album of albums(); track album.collectionId) {
+      <div class="col-md-4 mb-3">
+        <app-album-item [album]="album" ></app-album-item>
+      </div>
+    }
+  </div>
+  @if (isLoading()) {
+    <app-loading></app-loading>
+  } @else if (albums().length === 0 ) {
+    <app-not-found></app-not-found>
+  } @else if (albums().length === 0 ) {
+    <app-not-found></app-not-found>
+  }

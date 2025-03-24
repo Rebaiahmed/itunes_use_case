@@ -1,4 +1,5 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
+import { Router } from '@angular/router';
 import { Album } from '@core/models';
 
 @Component({
@@ -8,6 +9,12 @@ import { Album } from '@core/models';
   styleUrl: './album-item.component.scss'
 })
 export class AlbumItemComponent {
-  albumData = input<Album>();
+  album = input<Album>();
+  private router = inject(Router);
+
+
+  viewAlbumDetails(albumId: number) {
+    this.router.navigate(['/albums', albumId]);
+  }
 
 }

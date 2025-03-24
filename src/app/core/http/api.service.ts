@@ -16,11 +16,25 @@ export class ApiService {
 
 
   searchAlbums(params: SearchParams): Observable<ItunesResponse> {
-    const { searchQuery, offset, limit, sortBy } = params;
-    let url = `${this.apiUrl}?term=${searchQuery}&entity=album&limit=${limit}&offset=${offset}`;
+    const url = this.constructUrl(params);
     return this.http.get<ItunesResponse>(url)
-    .pipe(catchError((error: HttpErrorResponse) => {
-      return throwError(() => new Error(error.message || 'Something went wrong'));
-    }))
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return throwError(() => new Error(error.message || 'Something went wrong'));
+        })
+      );
+  }
+
+
+  private constructUrl(params: SearchParams): string {
+    let url = `${this.apiUrl}?entity=album`;
+    const { searchQuery, offset, limit, sortBy } = params;
+    if (searchQuery) {
+      url += `&term=${searchQuery}`;
+    }
+    if (limit) {
+      url += `&limit=${limit}`;
+    }
+    return url;
   }
 }
