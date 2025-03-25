@@ -1,8 +1,8 @@
 import { Component, DestroyRef, inject, OnInit, output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Album } from '@core/models';
+import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs';
+import { INITIAL_SEARCH_QUERY } from '../constants';
 
 @Component({
   selector: 'app-album-search',
@@ -12,9 +12,11 @@ import { Album } from '@core/models';
 })
 export class AlbumSearchComponent implements OnInit {
 
-  searchControl = new FormControl('');
+  searchControl = new FormControl(INITIAL_SEARCH_QUERY);
   private destroyRef = inject(DestroyRef);
-  searchChange = output<string>()
+  searchChange = output<string>();
+  sortByPriceEvent = output<boolean>();
+  sortByReleaseDateEvent = output<boolean>();
 
 
   ngOnInit(): void {
@@ -23,12 +25,24 @@ export class AlbumSearchComponent implements OnInit {
 
   setupSearchControl(): void {
     this.searchControl.valueChanges.pipe(
-     // takeUntilDestroyed(this.destroyRef),
-    /*   debounceTime(300),
-      distinctUntilChanged(), */
-      //tap((value:string) => this.searchChange.emit(value)),
-      
+      takeUntilDestroyed(this.destroyRef),
+      debounceTime(300),
+      distinctUntilChanged(),
+      filter((value: string | null) => !!value), 
+      tap((value: string | null) => this.searchChange.emit(value || '')),
     ).subscribe();
+  }
+
+  sortByReleaseDate(): void {
+    this.sortByReleaseDateEvent.emit(true);
+  }
+
+  clearSearch(): void {
+    this.searchControl.setValue('');
+  }
+
+  onEnter(): void {
+  this.searchChange.emit(this.searchControl.value || '')
   }
 
 }

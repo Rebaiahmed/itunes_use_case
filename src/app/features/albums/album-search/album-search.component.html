@@ -1,5 +1,6 @@
 <div class="input-group my-3">
-    <input type="text" class="form-control" placeholder="Search Albums" [formControl]="searchControl">
-    <button class="btn btn-outline-secondary" type="button">Sort by Price</button>
-    <button class="btn btn-outline-secondary" type="button">Sort by Release Date</button>
-  </div>
+    <input type="text" class="form-control" placeholder="Search Albums" [formControl]="searchControl" (keyup.enter)="onEnter()">
+    <button class="btn btn-outline-secondary" type="button" (click)="clearSearch()">
+        <i class="fas fa-times"></i> </button>
+    <button class="btn btn-outline-secondary" type="button" (click)="sortByReleaseDate()">Sort by Release Date</button>
+</div>

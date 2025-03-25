@@ -8,10 +8,12 @@ import { AlbumItemComponent } from '../album-item/album-item.component';
 import { LoadingComponent } from '@shared/loading/loading.component';
 import { NotFoundComponent } from '@shared/not-found/not-found.component';
 import { AlbumSearchComponent } from '../album-search/album-search.component';
+import { INITIAL_SEARCH_QUERY } from '../constants';
+import { AlbumDetailsComponent } from '../album-details/album-details.component';
 
 @Component({
   selector: 'app-album-list',
-  imports: [AlbumItemComponent,LoadingComponent,NotFoundComponent,AlbumSearchComponent],
+  imports: [AlbumItemComponent,LoadingComponent,NotFoundComponent,AlbumSearchComponent,AlbumDetailsComponent],
   templateUrl: './album-list.component.html',
   styleUrl: './album-list.component.scss'
 })
@@ -23,9 +25,10 @@ export class AlbumListComponent implements OnInit {
   albums = signal<Album[]>([]);
   isLoading = signal(false);
   componentParams: SearchParams = {
-    searchQuery: 'Michael Jackson',
+    searchQuery: INITIAL_SEARCH_QUERY,
     isLoading: false,
-    limit:25
+    limit:25,
+    sortBy: '',
   };
   
 
@@ -43,7 +46,13 @@ export class AlbumListComponent implements OnInit {
   }
 
   handleSearchChange(term: string): void {
-    alert('received')
+    console.log('term',term)
+  }
+
+  handleSortByReleaseDate(): void {
+    this.componentParams.sortBy = this.componentParams.sortBy === 'releaseDateAsc' ? 'releaseDateDesc' : 'releaseDateAsc';
+    //this.albums.set([]);
+    //this.loadAlbums();
   }
 
   viewAlbumDetails(albumId: number) {

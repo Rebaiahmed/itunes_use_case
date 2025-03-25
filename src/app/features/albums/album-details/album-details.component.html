@@ -1,25 +1,47 @@
-<div class="container mt-4">
+<div class="container mt-5">
     @if (album()) {
-      <div class="card">
+      <div class="card shadow rounded overflow-hidden">
         <div class="row g-0">
-          <div class="col-md-4">
-            <img [src]="album()?.artworkUrl100" class="img-fluid rounded-start" alt="Album Cover">
+          <div class="col-md-5 position-relative">
+            <img [src]="album()?.artworkUrl100" class="img-fluid w-100" alt="Album Cover">
+            <div class="position-absolute bottom-0 start-0 w-100 bg-dark bg-opacity-75 p-3 text-white">
+              <h5 class="mb-0">{{ album()?.collectionName }}</h5>
+              <small>by {{ album()?.artistName }}</small>
+            </div>
           </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{{ album()?.collectionName }}</h5>
-              <p class="card-text">Artist: {{ album()?.artistName }}</p>
-              <p class="card-text">Release Date: {{ album()?.releaseDate | date }}</p>
-              <p class="card-text">Country: {{ album()?.country }}</p>
-              <p class="card-text">Currency: {{ album()?.currency }}</p>
-              <p class="card-text">Track Count: {{ album()?.trackCount }}</p>
-              <p class="card-text">Primary Genre: {{ album()?.primaryGenreName }}</p>
+          <div class="col-md-7 p-4">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div>
+                <span class="badge bg-primary">{{ album()?.primaryGenreName }}</span>
+                <span class="badge bg-info ms-2">{{ album()?.collectionExplicitness }}</span>
+              </div>
+              <small class="text-muted">{{ album()?.releaseDate | date }}</small>
+            </div>
+            <p class="card-text">
+              <strong>Country:</strong> {{ album()?.country }} | <strong>Currency:</strong> {{ album()?.currency }}
+            </p>
+            <p class="card-text">
+              <strong>Tracks:</strong> {{ album()?.trackCount }}
+            </p>
+            <p class="card-text">
+              {{ album()?.copyright }}
+            </p>
+  
+            <h6 class="mt-4">Track List:</h6>
+            <ul class="list-group">
+              @for (track of tracks(); track track.trackId) {
+                <li class="list-group-item">{{ track.trackName }}</li>
+              }
+            </ul>
+  
+            <div class="mt-4">
+              <a [href]="album()?.collectionViewUrl" class="btn btn-success me-2" target="_blank">View on Apple Music</a>
               <button class="btn btn-secondary" (click)="goBack()">Back to Home</button>
             </div>
           </div>
         </div>
       </div>
     } @else {
-      <p>Loading album details...</p>
+      <app-loading></app-loading>
     }
   </div>
