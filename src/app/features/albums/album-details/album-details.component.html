@@ -1,1 +1,25 @@
-<p>album-details works!</p>
+<div class="container mt-4">
+    @if (album()) {
+      <div class="card">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img [src]="album()?.artworkUrl100" class="img-fluid rounded-start" alt="Album Cover">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{ album()?.collectionName }}</h5>
+              <p class="card-text">Artist: {{ album()?.artistName }}</p>
+              <p class="card-text">Release Date: {{ album()?.releaseDate | date }}</p>
+              <p class="card-text">Country: {{ album()?.country }}</p>
+              <p class="card-text">Currency: {{ album()?.currency }}</p>
+              <p class="card-text">Track Count: {{ album()?.trackCount }}</p>
+              <p class="card-text">Primary Genre: {{ album()?.primaryGenreName }}</p>
+              <button class="btn btn-secondary" (click)="goBack()">Back to Home</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <p>Loading album details...</p>
+    }
+  </div>

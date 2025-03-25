@@ -14,6 +14,7 @@ export class AlbumItemComponent {
 
 
   viewAlbumDetails(albumId: number) {
+    alert('hey hey')
     this.router.navigate(['/albums', albumId]);
   }
 

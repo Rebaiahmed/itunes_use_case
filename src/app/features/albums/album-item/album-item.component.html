@@ -1,7 +1,7 @@
-<div class="card cursor-pointer transition-transform hover:scale-102" (click)="viewAlbumDetails(album()?.collectionId || 0)">
-    <img [src]="album()?.artworkUrl100" class="card-img-top" alt="Album Artwork">
-    <div class="card-body">
-      <h5 class="card-title">{{ album()?.collectionName }}</h5>
-      <h6 class="card-subtitle mb-2 text-gray-600">{{ album()?.artistName }}</h6>
-    </div>
+<div class="card cursor-pointer transition-transform hover:scale-102 mb-4">
+  <div class="card-body">
+    <h5 class="card-title font-semibold text-blue-600 hover:text-blue-800 cursor-pointer" (click)="viewAlbumDetails(album()?.collectionId || 0)">{{ album()?.collectionName }}</h5>
+    <h6 class="card-subtitle mb-2 text-gray-600">{{ album()?.artistName }}</h6>
+    <img [src]="album()?.artworkUrl60" class="card-img-top mt-2" alt="Album Artwork">
   </div>
+</div>

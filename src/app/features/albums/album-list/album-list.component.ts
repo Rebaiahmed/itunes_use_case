@@ -7,10 +7,11 @@ import { tap } from 'rxjs';
 import { AlbumItemComponent } from '../album-item/album-item.component';
 import { LoadingComponent } from '@shared/loading/loading.component';
 import { NotFoundComponent } from '@shared/not-found/not-found.component';
+import { AlbumSearchComponent } from '../album-search/album-search.component';
 
 @Component({
   selector: 'app-album-list',
-  imports: [AlbumItemComponent,LoadingComponent,NotFoundComponent],
+  imports: [AlbumItemComponent,LoadingComponent,NotFoundComponent,AlbumSearchComponent],
   templateUrl: './album-list.component.html',
   styleUrl: './album-list.component.scss'
 })
@@ -19,7 +20,6 @@ export class AlbumListComponent implements OnInit {
   private itunesService = inject(ApiService);
   private router = inject(Router);
   private destroyRef = inject(DestroyRef)
-
   albums = signal<Album[]>([]);
   isLoading = signal(false);
   componentParams: SearchParams = {
@@ -42,7 +42,9 @@ export class AlbumListComponent implements OnInit {
       }); 
   }
 
-
+  handleSearchChange(term: string): void {
+    alert('received')
+  }
 
   viewAlbumDetails(albumId: number) {
     this.router.navigate(['/albums', albumId]);

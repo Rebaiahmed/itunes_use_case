@@ -1,8 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
 import { ItunesResponse, SearchParams } from '../models';
 import { catchError, Observable, throwError } from 'rxjs';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class ApiService {
     return this.http.get<ItunesResponse>(url)
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          return throwError(() => new Error(error.message || 'Something went wrong'));
+          return throwError(() => new Error(error?.message));
         })
       );
   }
@@ -28,7 +28,7 @@ export class ApiService {
 
   private constructUrl(params: SearchParams): string {
     let url = `${this.apiUrl}?entity=album`;
-    const { searchQuery, offset, limit, sortBy } = params;
+    const { searchQuery, limit, sortBy } = params;
     if (searchQuery) {
       url += `&term=${searchQuery}`;
     }
