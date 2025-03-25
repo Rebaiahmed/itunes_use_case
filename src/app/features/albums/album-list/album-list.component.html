@@ -1,26 +1,22 @@
-
 <div class="container">
-<div>
-  <app-album-search
-    (searchChange)="handleSearchChange($event)"
-    (sortByReleaseDateEvent)="handleSortByReleaseDate()"
-  ></app-album-search>
-</div>
+  <div>
+    <app-album-search
+      (searchChange)="handleSearchChange($event)"
+      (sortByReleaseDateEvent)="handleSortByReleaseDate()"
+    ></app-album-search>
+  </div>
 
-<app-album-details></app-album-details>
+  <div infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="150" (scrolled)="onScroll()">
+    <div class="row">
+      @for (album of albums(); track album.collectionId) {
+        <div class="col-md-4 mb-3">
+          <app-album-item [album]="album"></app-album-item>
+        </div>
+      }
+    </div>
 
-<div class="row">
-    @for (album of albums(); track album.collectionId) {
-      <div class="col-md-4 mb-3">
-        <app-album-item [album]="album" ></app-album-item>
-      </div>
+    @if (isLoading()) {
+      <app-loading></app-loading>
     }
   </div>
-  @if (isLoading()) {
-    <app-loading></app-loading>
-  } @else if (albums().length === 0 ) {
-    <app-not-found></app-not-found>
-  } @else if (albums().length === 0 ) {
-    <app-not-found></app-not-found>
-  }
 </div>

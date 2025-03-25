@@ -18,6 +18,7 @@
     "target": "ES2022",
     "module": "ES2022",
     "baseUrl": "./src",
+    "strictNullChecks": false,
     "paths": {
       "@core/*": ["app/core/*"],
       "@features/*": ["app/features/*"],

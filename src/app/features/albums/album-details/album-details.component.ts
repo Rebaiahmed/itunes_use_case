@@ -44,11 +44,11 @@ export class AlbumDetailsComponent {
     this.route.params.pipe(
       switchMap((params) => {
         return this.fetchAlbumDetails(params['id']).pipe(
-          tap((album) => this.album.set(album || undefined)),
-          switchMap((album) => {
+          tap((album) => this.album.set(album)),
+          switchMap((album: Album) => {
             return album ? this.apiService.getTracksByAlbumId(album.collectionId).pipe(
               map((response: TracksResponse) => response.results)
-            ) : [];
+            ) : of([]);
           })
         );
       }),
@@ -59,7 +59,7 @@ export class AlbumDetailsComponent {
     });
   }
 
-  private fetchAlbumDetails(albumId: string): Observable<Album | null>{
+  private fetchAlbumDetails(albumId: string): Observable<Album>{
     return this.apiService.getAlbumById(parseInt(albumId, 10));
   }
 
