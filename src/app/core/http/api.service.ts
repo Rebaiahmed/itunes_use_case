@@ -1,7 +1,6 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '@environments/environment';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Album, ItunesResponse, SearchParams, TracksResponse } from '../models';
 import { handleError } from './error-handling';
 
@@ -15,7 +14,6 @@ export class ApiService {
   private lookupUrl = '/itunes-api/lookup';
 
   constructor() { }
-
 
   searchAlbums(params: SearchParams): Observable<ItunesResponse> {
     const url = this.constructUrl(params);
@@ -32,7 +30,7 @@ export class ApiService {
         if (response.results && response.results.length > 0) {
           return response.results[0] as Album;
         } else {
-          return null;
+          return {} as Album;
         }
       }),
       handleError()
@@ -48,9 +46,9 @@ export class ApiService {
 
 
 
-  private constructUrl(params: SearchParams): string {
+ /*  private constructUrl(params: SearchParams): string {
     let url = `${this.baseUrl}?entity=album`;
-    const { searchQuery, limit, sortBy } = params;
+    const { searchQuery, limit } = params;
     if (searchQuery) {
       url += `&term=${searchQuery}`;
     }
@@ -58,5 +56,17 @@ export class ApiService {
       url += `&limit=${limit}`;
     }
     return url;
-  }
+  } */
+
+    private constructUrl(params: SearchParams): string {
+      let httpParams = new HttpParams().set('entity', 'album');
+      if (params.searchQuery) {
+        httpParams = httpParams.set('term', params.searchQuery);
+      }
+  
+      if (params.limit) {
+        httpParams = httpParams.set('limit', params.limit.toString());
+      }
+      return `${this.baseUrl}?${httpParams.toString()}`;
+    }
 }

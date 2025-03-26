@@ -15,10 +15,10 @@ import { map, Observable, of, switchMap, tap } from 'rxjs';
 })
 export class AlbumDetailsComponent {
 
-  private router = inject(Router);
-  private route =  inject(ActivatedRoute);
-  private apiService = inject(ApiService);
-  private destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly apiService = inject(ApiService);
+  private readonly destroyRef = inject(DestroyRef);
   album= signal<Album | undefined>(undefined);
   tracks = signal<Track[]>([]); 
 
@@ -45,18 +45,19 @@ export class AlbumDetailsComponent {
       switchMap((params) => {
         return this.fetchAlbumDetails(params['id']).pipe(
           tap((album) => this.album.set(album)),
-          switchMap((album: Album) => {
-            return album ? this.apiService.getTracksByAlbumId(album.collectionId).pipe(
-              map((response: TracksResponse) => response.results)
-            ) : of([]);
-          })
+          switchMap((album: Album) => album ? this.getAlbumTracks(album) : of([]))
         );
       }),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe((tracks: Track[]) => {
-      console.log('tracks',tracks);
       this.tracks.set(tracks);
     });
+  }
+
+  private getAlbumTracks(album: Album): Observable<Track[]> {
+    return this.apiService.getTracksByAlbumId(album.collectionId).pipe(
+      map((response: TracksResponse) => response.results)
+    );
   }
 
   private fetchAlbumDetails(albumId: string): Observable<Album>{
