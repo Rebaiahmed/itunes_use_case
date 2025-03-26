@@ -1,60 +1,35 @@
-# ItunesMicrosite
+# Angular Albums Microsite - Zeal Network Test
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.3.
+This albums microsite is built with modern Angular 19, focusing on performance and user experience.
 
-## Development server
+**What We Used:**
 
-To start a local development server, run:
+* **Angular 19:**
+    * Uses Signals (including Output Signals) for fast data updates and improved performance.
+    * Uses Control Flow Syntax for cleaner and more readable template logic.
+    * Uses Standalone Components to keep things organized and modular.
+    * Has proxy setup for easy API calls (avoids CORS issues during development).
+* **Bootstrap:** Makes the site responsive, looking good on all devices.
+* **Tailwind CSS:** For quick and easy styling.
+* **Angular Animations:** For smooth page changes.
+* **ngx-infinite-scroll:** Loads more albums as you scroll.
+* **ngMocks:** Helps with testing.
+* **Playwright (Optional):** Extra tests to show modern testing.
+* **Separation of Concerns and Parent/Child Components:** Used to create reusable and maintainable UI components.
 
-```bash
-ng serve
-```
+**How It's Built:**
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+* `core/`: Important parts like data and services.
+* `shared/`: Things used in many places.
+* `features/`: Each page and its parts.
 
-## Code scaffolding
+**How to Run:**
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1.  Install Node.js v22.14.0, then run `npm install`.
+2.  Start the app with `ng serve`. Open Chrome at `http://localhost:4200/`. (Chrome is the primary browser used.)
+3.  Test the app with `ng test` to run unit tests.
+4.  **Playwright (Optional):** If you added playwright tests, follow the playwright documentation to run them.
 
-```bash
-ng generate component component-name
-```
+**Goal:**
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-# itunes_use_case
+This microsite shows how to build a good, easy-to-change Angular app with modern tools.

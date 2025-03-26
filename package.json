@@ -1,16 +1,19 @@
 {
   "name": "itunes-microsite",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:itunes-microsite": "node dist/itunes-microsite/server/server.mjs"
+    "serve:ssr:itunes-microsite": "node dist/itunes-microsite/server/server.mjs",
+    "e2e": "playwright test"
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^19.2.3",
     "@angular/cdk": "^19.2.6",
     "@angular/common": "^19.2.0",
     "@angular/compiler": "^19.2.0",
@@ -36,6 +39,7 @@
     "@angular-devkit/build-angular": "^19.2.3",
     "@angular/cli": "^19.2.3",
     "@angular/compiler-cli": "^19.2.0",
+    "@playwright/test": "^1.51.1",
     "@types/express": "^4.17.17",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",
@@ -46,6 +50,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "playwright": "^1.51.1",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.0.15",
     "typescript": "~5.7.2"
