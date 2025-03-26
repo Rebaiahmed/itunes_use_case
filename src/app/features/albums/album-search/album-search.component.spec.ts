@@ -4,7 +4,7 @@ import { AlbumSearchComponent } from './album-search.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { INITIAL_SEARCH_QUERY } from '../constants';
 
-fdescribe('AlbumSearchComponent', () => {
+describe('AlbumSearchComponent', () => {
   let component: AlbumSearchComponent;
   let fixture: ComponentFixture<AlbumSearchComponent>;
 

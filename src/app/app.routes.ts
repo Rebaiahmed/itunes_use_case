@@ -7,7 +7,7 @@ export const routes: Routes = [
       import('@features/albums/album-list/album-list.component').then(
         (m) => m.AlbumListComponent
       ),
-    pathMatch: 'full', // Important to use 'full'
+    pathMatch: 'full',
   },
   {
     path: 'albums/:id',
@@ -15,6 +15,7 @@ export const routes: Routes = [
       import('@features/albums/album-details/album-details.component').then(
         (m) => m.AlbumDetailsComponent
       ),
+    data: { animationState: 'One' }
   },
   { path: '', redirectTo: 'albums', pathMatch: 'full' },
   { path: '**', redirectTo: 'albums' },

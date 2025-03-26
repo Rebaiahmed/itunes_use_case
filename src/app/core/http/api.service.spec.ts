@@ -66,12 +66,10 @@ describe('ApiService', () => {
 
     let actualTracks: TracksResponse | undefined;
     service.getTracksByAlbumId(albumId).subscribe(tracks => actualTracks = tracks);
-
     const req = httpMock.expectOne('/itunes-api/lookup?id=123&entity=song');
     expect(req.request.method).toBe('GET');
     req.flush(mockResponse);
     httpMock.verify();
-
     expect(actualTracks).toEqual(mockResponse);
   });
 });
