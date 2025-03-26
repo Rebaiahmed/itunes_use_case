@@ -70,8 +70,24 @@ export class AlbumListComponent implements OnInit {
   }
 
   handleSortByReleaseDate(): void {
-    this.componentParams.sortBy = this.componentParams.sortBy === 'releaseDateAsc' ? 'releaseDateDesc' : 'releaseDateAsc';
-    this.fetchAndSetAlbums();
+    this.componentParams = {
+      ...this.componentParams,
+      sortBy: this.componentParams.sortBy === 'releaseDateAsc' ? 'releaseDateDesc' : 'releaseDateAsc',
+    };
+
+    this.albums.set(this.sortAlbums(this.albums(), this.componentParams.sortBy));
+  
+  }
+
+  private sortAlbums(albums: Album[], sortBy: string): Album[] {
+    if (!sortBy) {
+      return albums;
+    }
+    return albums.slice().sort((a, b) => {
+      const dateA = new Date(a.releaseDate).getTime();
+      const dateB = new Date(b.releaseDate).getTime();
+      return sortBy === 'releaseDateAsc' ? dateA - dateB : dateB - dateA;
+    });
   }
 
   onScroll() {

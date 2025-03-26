@@ -8,6 +8,7 @@ export const routes: Routes = [
         (m) => m.AlbumListComponent
       ),
     pathMatch: 'full',
+    data: { animationState: 'List' }
   },
   {
     path: 'albums/:id',
