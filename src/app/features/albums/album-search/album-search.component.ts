@@ -39,6 +39,7 @@ export class AlbumSearchComponent implements OnInit {
 
   clearSearch(): void {
     this.searchControl.setValue('');
+    this.searchChange.emit('');
   }
 
   onEnter(): void {

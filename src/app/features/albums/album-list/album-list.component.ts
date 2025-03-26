@@ -10,12 +10,12 @@ import { AlbumItemComponent } from '../album-item/album-item.component';
 import { LoadingComponent } from '@shared/loading/loading.component';
 import { NotFoundComponent } from '@shared/not-found/not-found.component';
 import { AlbumSearchComponent } from '../album-search/album-search.component';
-import { INITIAL_SEARCH_QUERY } from '../constants';
+import { INITIAL_SEARCH_QUERY, ITEMS_PER_LOAD } from '../constants';
 import { AlbumDetailsComponent } from '../album-details/album-details.component';
 
 @Component({
   selector: 'app-album-list',
-  imports: [AlbumItemComponent,LoadingComponent,NotFoundComponent,AlbumSearchComponent,AlbumDetailsComponent,
+  imports: [AlbumItemComponent,LoadingComponent,NotFoundComponent,AlbumSearchComponent,
     ScrollingModule,
     InfiniteScrollDirective
   ],
@@ -25,7 +25,6 @@ import { AlbumDetailsComponent } from '../album-details/album-details.component'
 export class AlbumListComponent implements OnInit {
 
   private itunesService = inject(ApiService);
-  private router = inject(Router);
   private destroyRef = inject(DestroyRef)
   albums = signal<Album[]>([]);
   isLoading = signal(false);
@@ -37,7 +36,7 @@ export class AlbumListComponent implements OnInit {
   };
   totalResults = 0;
   currentCount = 0;
-  itemsPerLoad = 4;
+  itemsPerLoad = ITEMS_PER_LOAD;
   
   @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport;
   
@@ -52,24 +51,27 @@ export class AlbumListComponent implements OnInit {
     this.itunesService.searchAlbums(this.componentParams)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        tap(console.log)
       )
       .subscribe((response) => {
         this.albums.set([...this.albums(), ...response.results.slice(this.currentCount, this.currentCount + this.itemsPerLoad)]);
-        this.totalResults = response.resultCount; // Store total results
-        this.currentCount = this.albums().length; // Update count of loaded items
+        this.totalResults = response.resultCount;
+        this.currentCount = this.albums().length;
         this.isLoading.set(false); 
       });
   }
 
   handleSearchChange(term: string): void {
-    console.log('term',term)
+    this.componentParams = {
+      ...this.componentParams,
+      searchQuery: term
+    };
+    this.albums.set([]);
+    this.fetchAndSetAlbums(); 
   }
 
   handleSortByReleaseDate(): void {
     this.componentParams.sortBy = this.componentParams.sortBy === 'releaseDateAsc' ? 'releaseDateDesc' : 'releaseDateAsc';
-    //this.albums.set([]);
-    //this.loadAlbums();
+    this.fetchAndSetAlbums();
   }
 
   onScroll() {

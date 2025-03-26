@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { Album, ItunesResponse, SearchParams, TracksResponse } from '../models';
+import { handleError } from './error-handling';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,6 @@ import { Album, ItunesResponse, SearchParams, TracksResponse } from '../models';
 export class ApiService {
 
   private readonly http = inject(HttpClient);
-  //private readonly baseUrl = environment.apiUrl;
   private baseUrl = '/itunes-api/search';
   private lookupUrl = '/itunes-api/lookup';
 
@@ -21,10 +21,7 @@ export class ApiService {
     const url = this.constructUrl(params);
     return this.http.get<ItunesResponse>(url)
       .pipe(
-        catchError((error: HttpErrorResponse) => {
-          console.log('errors',error)
-          return throwError(() => new Error(error?.message));
-        })
+        handleError()
       );
   }
 
@@ -38,18 +35,14 @@ export class ApiService {
           return null;
         }
       }),
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => new Error(error?.message));
-      })
+      handleError()
     );
   }
 
   getTracksByAlbumId(albumId: number): Observable<TracksResponse> {
     const url = `${this.lookupUrl}?id=${albumId}&entity=song`;
     return this.http.get<TracksResponse>(url).pipe(
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => new Error(error?.message));
-      })
+      handleError()
     );
   }
 
